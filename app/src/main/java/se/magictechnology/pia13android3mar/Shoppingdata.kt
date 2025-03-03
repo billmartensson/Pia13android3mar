@@ -5,13 +5,16 @@ import androidx.room.Database
 import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.Insert
+import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.RoomDatabase
 
 @Entity
 data class Shopitem(
+    @PrimaryKey(autoGenerate = true) val uid: Int,
     val shopname : String,
-    val amount : Int
+    val amount : Int,
+    val isbought : Boolean
 )
 
 
@@ -27,7 +30,7 @@ interface ShopitemDao {
     fun deleteshop(shopitem: Shopitem)
 }
 
-@Database(entities = [Shopitem::class], version = 1)
+@Database(entities = [Shopitem::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun shipitemDao(): ShopitemDao
+    abstract fun shopitemDao(): ShopitemDao
 }
