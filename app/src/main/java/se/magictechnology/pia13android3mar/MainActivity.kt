@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
             AppDatabase::class.java, "database-name"
         ).build()
 
-
         var shopviewmodel = ShopViewModel()
         shopviewmodel.appdatabase = db
 

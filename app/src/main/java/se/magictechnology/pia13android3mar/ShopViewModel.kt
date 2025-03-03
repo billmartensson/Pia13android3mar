@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 
 class ShopViewModel : ViewModel() {
 
+    var isPreview = false
+
     lateinit var appdatabase : AppDatabase
 
     private val _allshoping = MutableStateFlow(listOf<Shopitem>())
@@ -19,8 +21,41 @@ class ShopViewModel : ViewModel() {
 
 
     fun loadshopping() {
+        if(isPreview) {
+            _allshoping.value = makePreviewData()
+            return
+        }
+
+
         CoroutineScope(Dispatchers.IO).launch {
             var loadshop = appdatabase.shopitemDao().getAllShop()
+
+            _allshoping.value = loadshop
+        }
+
+    }
+
+    fun loadBoughtShopping() {
+        CoroutineScope(Dispatchers.IO).launch {
+            var loadshop = appdatabase.shopitemDao().getBoughtShop()
+
+            _allshoping.value = loadshop
+        }
+
+    }
+
+    fun loadNotBoughtShopping() {
+        CoroutineScope(Dispatchers.IO).launch {
+            var loadshop = appdatabase.shopitemDao().getNotBoughtShop()
+
+            _allshoping.value = loadshop
+        }
+
+    }
+
+    fun loadMoreThanShopping(morethanamount : Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            var loadshop = appdatabase.shopitemDao().getMoreThanAmountShop(morethanamount)
 
             _allshoping.value = loadshop
         }
@@ -42,6 +77,28 @@ class ShopViewModel : ViewModel() {
             loadshopping()
         }
 
+    }
+
+    fun changeBought(shopitem: Shopitem) {
+        shopitem.isbought = !shopitem.isbought
+
+        CoroutineScope(Dispatchers.IO).launch {
+            appdatabase.shopitemDao().updateShop(shopitem)
+            _allshoping.value = mutableListOf()
+            loadshopping()
+        }
+    }
+
+
+
+    fun makePreviewData() : List<Shopitem> {
+        var previewShop = mutableListOf<Shopitem>()
+        var shop1 = Shopitem(uid = 0, shopname = "Apelsin", amount = 10, isbought = false)
+        var shop2 = Shopitem(uid = 0, shopname = "Banan", amount = 2, isbought = true)
+        previewShop.add(shop1)
+        previewShop.add(shop2)
+
+        return previewShop
     }
 
 }

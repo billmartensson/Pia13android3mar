@@ -3,6 +3,8 @@ package se.magictechnology.pia13android3mar
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -16,6 +18,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun ShoppingScreen(shopviewmodel : ShopViewModel) {
@@ -29,8 +34,8 @@ fun ShoppingScreen(shopviewmodel : ShopViewModel) {
         shopviewmodel.loadshopping()
     }
 
-    Column {
-        Text("SHOP")
+    Column(modifier = Modifier.fillMaxSize()) {
+        Text("SHOPPING LIST")
 
         TextField(value = addshoptitle, onValueChange = { addshoptitle = it })
         TextField(value = addshopamount, onValueChange = { addshopamount = it })
@@ -42,10 +47,32 @@ fun ShoppingScreen(shopviewmodel : ShopViewModel) {
         }
 
 
+        Row {
+            Button(onClick = {
+                shopviewmodel.loadshopping()
+            }) {
+                Text("ALLA")
+            }
+            Button(onClick = {
+                shopviewmodel.loadBoughtShopping()
+            }) {
+                Text("KLARA")
+            }
+            Button(onClick = {
+                shopviewmodel.loadNotBoughtShopping()
+            }) {
+                Text("EJ KLARA")
+            }
+        }
+
+
         LazyColumn {
             items(shoplist) { shopitem ->
-                Row(modifier = Modifier.clickable {
+                Row(modifier = Modifier
+                    .height(50.dp)
+                    .clickable {
                     //shopviewmodel.deleteshop(shopitem)
+                    shopviewmodel.changeBought(shopitem)
                 }) {
                     Text(shopitem.shopname)
                     Text("${shopitem.amount}")
@@ -59,4 +86,14 @@ fun ShoppingScreen(shopviewmodel : ShopViewModel) {
             }
         }
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun ShoppingScreenPreview() {
+
+    var shopviewmodel = ShopViewModel()
+    shopviewmodel.isPreview = true
+    ShoppingScreen(shopviewmodel)
 }
