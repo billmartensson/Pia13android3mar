@@ -42,7 +42,7 @@ interface ShopitemDao {
     @Query("SELECT * FROM Shopitem WHERE amount < :lessthan")
     fun getLessThanAmountShop(lessthan : Int) : List<Shopitem>
 
-    @Query("SELECT * FROM Shopitem WHERE isbought = 1 AND amount = 1")
+    @Query("SELECT * FROM Shopitem WHERE isbought = 1 AND amount = 2")
     fun getBoughtShopOne() : List<Shopitem>
 
     @Insert
