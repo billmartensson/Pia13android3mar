@@ -102,3 +102,7 @@ class ShopViewModel : ViewModel() {
     }
 
 }
+
+// Fixa 1
+// TODO: Fixa viewmodel
+//FIXME: abc

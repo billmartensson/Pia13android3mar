@@ -11,6 +11,8 @@ import androidx.room.Query
 import androidx.room.RoomDatabase
 import androidx.room.Update
 
+// Ändra databas
+//TODO: Bygg fin kod
 @Entity
 data class Shopitem(
     @PrimaryKey(autoGenerate = true) val uid: Int,
@@ -36,6 +38,12 @@ interface ShopitemDao {
 
     @Query("SELECT * FROM Shopitem ORDER By amount DESC LIMIT 1")
     fun getMostShop() : Shopitem
+
+    @Query("SELECT * FROM Shopitem WHERE amount < :lessthan")
+    fun getLessThanAmountShop(lessthan : Int) : List<Shopitem>
+
+    @Query("SELECT * FROM Shopitem WHERE isbought = 1 AND amount = 3")
+    fun getBoughtShopOne() : List<Shopitem>
 
     @Insert
     fun addShop(shopitem: Shopitem)
