@@ -19,6 +19,12 @@ class ShopViewModel : ViewModel() {
     private val _allshoping = MutableStateFlow(listOf<Shopitem>())
     val allshopping: StateFlow<List<Shopitem>> = _allshoping.asStateFlow()
 
+    private val _navbartitle = MutableStateFlow("START")
+    val navbartitle = _navbartitle.asStateFlow()
+
+    fun setNavbarTitle(title : String) {
+        _navbartitle.value = title
+    }
 
     fun loadshopping() {
         if(isPreview) {

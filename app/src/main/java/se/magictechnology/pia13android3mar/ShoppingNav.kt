@@ -1,13 +1,13 @@
 package se.magictechnology.pia13android3mar
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun ShoppingNav(shopviewmodel : ShopViewModel) {
-    val navController = rememberNavController()
+fun ShoppingNav(shopviewmodel : ShopViewModel, navController : NavHostController) {
 
     NavHost(navController = navController, startDestination = "shopping") {
         composable("shopping") {
@@ -16,7 +16,7 @@ fun ShoppingNav(shopviewmodel : ShopViewModel) {
             })
         }
         composable("info") {
-            ShopInfo()
+            ShopInfo(shopviewmodel)
         }
 
     }

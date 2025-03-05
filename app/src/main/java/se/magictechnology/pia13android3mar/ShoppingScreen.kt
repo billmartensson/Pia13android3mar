@@ -32,6 +32,7 @@ fun ShoppingScreen(shopviewmodel : ShopViewModel, goInfo : () -> Unit) {
 
     LaunchedEffect(true) {
         shopviewmodel.loadshopping()
+        shopviewmodel.setNavbarTitle("SHOPPING")
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
