@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Pia13android3marTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ShoppingScreen(shopviewmodel)
+                    ShoppingNav(shopviewmodel)
                 }
             }
         }

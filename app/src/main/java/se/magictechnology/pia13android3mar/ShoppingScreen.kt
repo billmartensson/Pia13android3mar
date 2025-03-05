@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun ShoppingScreen(shopviewmodel : ShopViewModel) {
+fun ShoppingScreen(shopviewmodel : ShopViewModel, goInfo : () -> Unit) {
 
     val shoplist by shopviewmodel.allshopping.collectAsState()
 
@@ -36,6 +36,12 @@ fun ShoppingScreen(shopviewmodel : ShopViewModel) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         Text("SHOPPING LIST")
+
+        Button(onClick = {
+            goInfo()
+        }) {
+            Text("INFO")
+        }
 
         TextField(value = addshoptitle, onValueChange = { addshoptitle = it })
         TextField(value = addshopamount, onValueChange = { addshopamount = it })
@@ -95,5 +101,5 @@ fun ShoppingScreenPreview() {
 
     var shopviewmodel = ShopViewModel()
     shopviewmodel.isPreview = true
-    ShoppingScreen(shopviewmodel)
+    ShoppingScreen(shopviewmodel, goInfo = {})
 }
