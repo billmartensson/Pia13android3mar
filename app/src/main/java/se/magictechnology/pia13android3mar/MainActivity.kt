@@ -40,3 +40,4 @@ class MainActivity : ComponentActivity() {
 }
 
 // Kod i development
+// Mera kod
