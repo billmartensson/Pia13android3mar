@@ -12,7 +12,7 @@ import androidx.room.RoomDatabase
 import androidx.room.Update
 
 // Ändra databas
-
+//TODO: Bygg fin kod
 @Entity
 data class Shopitem(
     @PrimaryKey(autoGenerate = true) val uid: Int,
