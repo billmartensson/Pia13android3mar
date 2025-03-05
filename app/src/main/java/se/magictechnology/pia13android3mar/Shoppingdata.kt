@@ -11,6 +11,8 @@ import androidx.room.Query
 import androidx.room.RoomDatabase
 import androidx.room.Update
 
+// Ändra databas
+
 @Entity
 data class Shopitem(
     @PrimaryKey(autoGenerate = true) val uid: Int,
