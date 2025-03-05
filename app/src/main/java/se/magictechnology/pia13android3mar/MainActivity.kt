@@ -38,3 +38,5 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+// Kod i development
