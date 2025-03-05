@@ -102,3 +102,5 @@ class ShopViewModel : ViewModel() {
     }
 
 }
+
+// Fixa 1
