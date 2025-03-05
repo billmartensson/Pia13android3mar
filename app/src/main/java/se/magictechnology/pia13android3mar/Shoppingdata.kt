@@ -12,6 +12,7 @@ import androidx.room.RoomDatabase
 import androidx.room.Update
 
 // Ändra databas
+// Ändra lite till
 
 @Entity
 data class Shopitem(
