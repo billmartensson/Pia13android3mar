@@ -39,6 +39,9 @@ interface ShopitemDao {
     @Query("SELECT * FROM Shopitem ORDER By amount DESC LIMIT 1")
     fun getMostShop() : Shopitem
 
+    @Query("SELECT * FROM Shopitem WHERE amount < :lessthan")
+    fun getLessThanAmountShop(lessthan : Int) : List<Shopitem>
+
     @Insert
     fun addShop(shopitem: Shopitem)
 
