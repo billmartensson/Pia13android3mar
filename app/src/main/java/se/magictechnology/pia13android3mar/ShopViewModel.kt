@@ -1,8 +1,6 @@
 package se.magictechnology.pia13android3mar
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,8 +14,11 @@ class ShopViewModel : ViewModel() {
 
     lateinit var appdatabase : AppDatabase
 
-    private val _allshoping = MutableStateFlow(listOf<Shopitem>())
-    val allshopping: StateFlow<List<Shopitem>> = _allshoping.asStateFlow()
+    private val _allshopping = MutableStateFlow(listOf<Shopitem>())
+    val allshopping: StateFlow<List<Shopitem>> = _allshopping.asStateFlow()
+
+    private val _doneshopping = MutableStateFlow(listOf<Shopitem>())
+    val doneshopping: StateFlow<List<Shopitem>> = _doneshopping.asStateFlow()
 
     private val _navbartitle = MutableStateFlow("START")
     val navbartitle = _navbartitle.asStateFlow()
@@ -28,7 +29,7 @@ class ShopViewModel : ViewModel() {
 
     fun loadshopping() {
         if(isPreview) {
-            _allshoping.value = makePreviewData()
+            _allshopping.value = makePreviewData()
             return
         }
 
@@ -36,7 +37,7 @@ class ShopViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             var loadshop = appdatabase.shopitemDao().getAllShop()
 
-            _allshoping.value = loadshop
+            _allshopping.value = loadshop
         }
 
     }
@@ -45,7 +46,7 @@ class ShopViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             var loadshop = appdatabase.shopitemDao().getBoughtShop()
 
-            _allshoping.value = loadshop
+            _allshopping.value = loadshop
         }
 
     }
@@ -54,16 +55,26 @@ class ShopViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             var loadshop = appdatabase.shopitemDao().getNotBoughtShop()
 
-            _allshoping.value = loadshop
+            _allshopping.value = loadshop
         }
 
     }
+
+    fun loadDoneShopping() {
+        CoroutineScope(Dispatchers.IO).launch {
+            var loadshop = appdatabase.shopitemDao().getBoughtShop()
+
+            _doneshopping.value = loadshop
+        }
+
+    }
+
 
     fun loadMoreThanShopping(morethanamount : Int) {
         CoroutineScope(Dispatchers.IO).launch {
             var loadshop = appdatabase.shopitemDao().getMoreThanAmountShop(morethanamount)
 
-            _allshoping.value = loadshop
+            _allshopping.value = loadshop
         }
 
     }
@@ -90,7 +101,7 @@ class ShopViewModel : ViewModel() {
 
         CoroutineScope(Dispatchers.IO).launch {
             appdatabase.shopitemDao().updateShop(shopitem)
-            _allshoping.value = mutableListOf()
+            _allshopping.value = mutableListOf()
             loadshopping()
         }
     }

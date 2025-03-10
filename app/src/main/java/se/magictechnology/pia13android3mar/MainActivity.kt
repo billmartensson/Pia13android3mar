@@ -15,6 +15,8 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -38,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -70,23 +73,27 @@ class MainActivity : ComponentActivity() {
 data class NavigationItem(
     val title: String,
     val icon: ImageVector,
+    val selectedIcon: ImageVector,
     val route: String
 )
 
 val navigationItems = listOf(
     NavigationItem(
         title = "Shopping",
-        icon = Icons.Default.ShoppingCart,
+        icon = Icons.Outlined.ShoppingCart,
+        selectedIcon = Icons.Default.ShoppingCart,
         route = "shopping"
     ),
     NavigationItem(
         title = "Done",
-        icon = Icons.Default.Person,
+        icon = Icons.Outlined.Person,
+        selectedIcon = Icons.Default.Person,
         route = "done"
     ),
     NavigationItem(
         title = "About",
-        icon = Icons.Default.ShoppingCart,
+        icon = Icons.Outlined.ShoppingCart,
+        selectedIcon = Icons.Default.ShoppingCart,
         route = "about"
     )
 )
@@ -134,7 +141,9 @@ fun mainscaffold(shopViewModel: ShopViewModel) {
                     }
                 )
             },
-            bottomBar = { NavigationBar() {
+            bottomBar = { NavigationBar(
+                containerColor = Color.LightGray
+            ) {
 
                 navigationItems.forEachIndexed { index, item ->
                     NavigationBarItem(
@@ -156,19 +165,21 @@ fun mainscaffold(shopViewModel: ShopViewModel) {
                             }
                         },
                         icon = {
-                            Icon(imageVector = item.icon, contentDescription = item.title)
+                            Icon(imageVector = if(index == selectedNavigationIndex) item.selectedIcon else item.icon, contentDescription = item.title)
                         },
                         label = {
                             Text(
                                 item.title,
                                 color = if(index == selectedNavigationIndex)
-                                    Color.Black
+                                    Color.Magenta
                                 else Color.Gray
                             )
                         },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.surface,
-                            indicatorColor = MaterialTheme.colorScheme.primary
+                            //selectedIconColor = MaterialTheme.colorScheme.surface,
+                            selectedIconColor = Color.Magenta,
+                            //indicatorColor = MaterialTheme.colorScheme.primary
+                            indicatorColor = Color.Transparent
                         )
 
                     )
@@ -184,10 +195,10 @@ fun mainscaffold(shopViewModel: ShopViewModel) {
                     ShoppingNav(shopViewModel)
                 }
                 composable(navigationItems[1].route) {
-                    Text("DONE WILL BE HERE")
+                    DoneScreen(shopViewModel)
                 }
                 composable(navigationItems[2].route) {
-                    Text("ABOUT WILL BE HERE")
+                    AboutScreen()
                 }
             }
 

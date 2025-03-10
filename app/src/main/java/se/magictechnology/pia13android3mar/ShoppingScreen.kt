@@ -30,14 +30,29 @@ fun ShoppingScreen(shopviewmodel : ShopViewModel, goInfo : () -> Unit) {
     var addshoptitle by remember { mutableStateOf("") }
     var addshopamount by remember { mutableStateOf("") }
 
+    var shopfilter by remember { mutableStateOf("all") }
+
     LaunchedEffect(true) {
-        shopviewmodel.loadshopping()
+
         shopviewmodel.setNavbarTitle("SHOPPING")
+    }
+
+    LaunchedEffect(shopfilter) {
+        if(shopfilter == "all") {
+            shopviewmodel.loadshopping()
+        }
+        if(shopfilter == "bought") {
+            shopviewmodel.loadBoughtShopping()
+        }
+        if(shopfilter == "notbought") {
+            shopviewmodel.loadNotBoughtShopping()
+        }
+
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Text("SHOPPING LIST")
-
+        Text(shopfilter)
         Button(onClick = {
             goInfo()
         }) {
@@ -56,17 +71,17 @@ fun ShoppingScreen(shopviewmodel : ShopViewModel, goInfo : () -> Unit) {
 
         Row {
             Button(onClick = {
-                shopviewmodel.loadshopping()
+                shopfilter = "all"
             }) {
                 Text("ALLA")
             }
             Button(onClick = {
-                shopviewmodel.loadBoughtShopping()
+                shopfilter = "bought"
             }) {
                 Text("KLARA")
             }
             Button(onClick = {
-                shopviewmodel.loadNotBoughtShopping()
+                shopfilter = "notbought"
             }) {
                 Text("EJ KLARA")
             }
