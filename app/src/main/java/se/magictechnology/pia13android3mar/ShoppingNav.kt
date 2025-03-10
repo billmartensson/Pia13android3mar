@@ -7,7 +7,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun ShoppingNav(shopviewmodel : ShopViewModel, navController : NavHostController) {
+fun ShoppingNav(shopviewmodel : ShopViewModel) {
+
+    val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "shopping") {
         composable("shopping") {
